@@ -1,13 +1,353 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+  margin: 0px;
+  padding: 0px;
+
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  background-color: #f8f9fa; /* cor de fundo neutra */
+  border-bottom: 1px solid #ddd;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.logo-container {
+  display: flex;
+  align-items: center;
 }
+
+.logo {
+  
+  width: 100%;
+  height: 50px;
+  margin-left: 10px;
+  margin-right: 20px;
+
+}
+
+h1 {
+  font-size: 40px;
+  color: #2a6d9e;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.buy-button {
+  background-color: #0033A0; /* Cor do botão */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 9px;
+  font-size: 20px;
+  height: 50px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.buy-button:hover {
+  background-color: #004399; /* Cor do botão ao passar o mouse */
+}
+
+
+
+
+
+.containerazul{
+  width: 200%;
+  height: 350px;
+  padding: 20px;
+  background-color: #0033A0;
+  border-radius: 10px 0px 0px 10px;
+  margin-top: 0px;
+  margin-bottom: 100px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.containerazul h2{
+  font-size: 40px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: white;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.p1{
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 50px;
+}
+
+.p2{
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 130px;
+  font-size: 16px;
+  margin-left: 40px;
+  margin-top: 5px;
+}
+
+.loginGeral{
+  display: flex;
+  flex-direction: row;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  background: url('../src/assets/testee.png') no-repeat center center;
+  background-size: cover;
+  margin: 0;
+}
+
+.login-box {
+  width: 350px;
+  padding: 20px;
+  background-color: #EEEEEE;
+  border-radius: 0px 10px 10px 0px;
+  margin-left: 0px;
+  align-items: end;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 350px;
+  
+}
+
+
+
+.login-box h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #004aad;
+}
+
+.login-box p {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.login-box form h3 {
+  margin-bottom: 15px;
+  font-size: 30px;
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.input-group {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.input-group button {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.input-group button.active {
+  background-color: #EEEEEE;
+  color: black;
+  border: none;
+  display: inline;
+  border-bottom: 2px solid black;
+  margin-right: 5px;
+}
+
+.input-group button.pRural {
+  background-color: #EEEEEE;
+  color: black;
+  border: none;
+  display: inline;
+  border-bottom: 2px solid rgb(125, 125, 125);
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  font-size: 14px;
+  width: 300px;
+  margin-left: 0px;
+  font-size: 20px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+
+.btn-register {
+  width: 190px;
+  padding: 0px;
+  background-color: white;
+  color: black;
+  border: 5px solid black;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 27px;
+  margin-left: 60px;
+  height: 50px;
+  margin-top: 20px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bold;
+}
+
+
+
+.btn-login {
+  width: 170px;
+  padding: 5px;
+  margin-left: 30px;
+  background-color: #0033A0;
+  color: white;
+  border: 5px solid white;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 25px;
+  margin-top: 70px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bold;
+
+}
+
+.image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+}
+
+
+.icones img {
+  width: 180px;
+  margin: 30px;
+  height: 180px;
+ 
+}
+
+.icones{
+  display: flex;
+  justify-content: center;
+}
+
+.sobre{
+  margin: 50px 0px 20px 50px;
+  color: #0033A0;
+  font-size: 50px;
+}
+
+.carrossel{
+  display: flex;
+  flex-direction: row;
+}
+
+.cards{
+  display: flex;
+  flex-direction: row;
+  margin-left: 50px;
+  margin-bottom: 50px;
+}
+
+.imgCard{
+  width: 378px;
+  height: 382px;
+  background-image: url('../src/assets/card1.png');
+  border-radius: 10px 0px 0px 30px;
+}
+
+.imgCard2{
+  width: 378px;
+  height: 382px;
+  background: url('../src/assets/card2.png') no-repeat;
+  border-radius: 30px 0px 0px 30px;
+}
+
+.contCard{
+  width: 200px;
+  height: 380px;
+  background-color: white;
+  border-radius: 0px  30px 30px 0px;
+  border: black solid 1px;
+  margin-left: 0px;
+  align-items: end;
+}
+
+.contCard h3{
+  text-align: center;
+  margin: 20px 0px 10px 0px;
+  font-size: 25px;
+}
+
+.contCard p{
+  width: 150px;
+  margin-left: 20px;
+  font-size: 20px;
+}
+
+
+
+/* Estilo do Card */
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  margin: 20px;
+  background-color: #f8f9fa;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Estilo da Imagem do Card */
+.card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Título do Card */
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+/* Texto do Card */
+.card-text {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+/* Botão dentro do Card */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+
+
+
+
+
+
+
