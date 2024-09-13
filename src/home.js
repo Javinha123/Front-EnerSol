@@ -14,11 +14,17 @@ const UserRegistrationForm = () => {
   const [cpf, setCpf] = useState('');
   const [documento, setDocumento] = useState('');
 
-  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    // Obtém o token CSRF do meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    if (!csrfToken) {
+      console.error('CSRF token não encontrado');
+      return;
+    }
+
+    // Monta o objeto dos dados de cadastro
     const dadosCadastro = {
       name,
       email,
@@ -32,26 +38,29 @@ const UserRegistrationForm = () => {
       ...(cidade ? { cidade } : {}),
       ...(rua ? { rua } : {}),
     };
-  
+
     try {
       const response = await axios.post('http://localhost:8000/api/usuarios', dadosCadastro, {
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': csrfToken, // Adiciona o token CSRF aqui,
+          'X-CSRF-TOKEN': csrfToken, // Envia o token CSRF no cabeçalho
         },
-        method: 'POST',
-        withCredentials: true,
+        withCredentials: true,  // Permite o envio de cookies
       });
-  
+
       console.log('Cadastro realizado com sucesso:', response.data);
     } catch (error) {
       console.error('Erro ao cadastrar:', error.response ? error.response.data : error.message);
     }
   };
-  
 
   return (
+
+    
     <div className="container">
+
+      
+      
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Nome</label>
