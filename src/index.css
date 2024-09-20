@@ -312,14 +312,8 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base{
-  body{
-    background-color: white;
-  }
+.placa{
+  width: 200px;
 }
 
 .stick-slide > div {
