@@ -253,56 +253,53 @@ h1 {
   justify-content: center;
 }
 
-.sobre{
-  margin: 50px 0px 20px 50px;
+.sobreNos h1{
+  margin: 75px 0px -20px 30px;
   color: #0033A0;
-  font-size: 50px;
-}
-
-.carrossel {
-  display: inline;
-  justify-content: center;
-  align-items: center;
+  text-decoration: bold;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 55px;
 }
 
 .cards{
-  display: flex;
+  display: flex !important;
   flex-direction: row;
-  margin-left: 50px;
+  width: 580px;
+  height: 392px;
+  margin-left: 30px;
   margin-top: 80px;
+  margin-bottom: 30px;
 }
 
 .imgCard{
-  width: 100%;
-  height: auto;
-  height: 480px;
+  width: 380px;
+  height: 392px;
   object-fit: cover;
   border-radius: 10px 0px 0px 30px;
 }
 
 .contCard{
   width: 200px;
-  height: 380px;
+  height: 390px;
   background-color: white;
   border-radius: 0px  30px 30px 0px;
   border: black solid 2px;
-  margin-left: 0px;
-  align-items: end;
+  margin-left: -1px;
 }
 
-.contCard h3{
-  text-align: center;
-  margin: 20px 0px 10px 0px;
-  font-size: 25px;
+.contCard h2{
+  margin-left: 15px;
+  margin-top: 20px;
 }
 
 .contCard p{
   width: 150px;
   margin-left: 20px;
+  margin-top: 20px;
   font-size: 20px;
 }
 
-.card {
+/* .card {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -310,7 +307,7 @@ h1 {
   margin: 0 8px;
   width: 200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+} */
 
 @tailwind base;
 @tailwind components;

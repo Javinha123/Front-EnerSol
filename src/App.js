@@ -64,8 +64,8 @@ const UserRegistrationForm = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 2
+    slidesToShow: 2,
+    slidesToScroll: 1
   };
 
   return (
@@ -194,23 +194,26 @@ const UserRegistrationForm = () => {
         <img src={painel} />
       </div>
 
+      <div className='sobreNos'>
+        <h1>Saiba mais sobre nós</h1>
+      </div>
       
-        <div className="carrossel">
-          <Slider {...settings}>
-          {data.map((d) => (
-            <div className="cards">
-              <div className="imgCard">
-                <img src={d.img} alt="" />
-              </div>
-
-              <div className="contCard">
-                <p>{d.name}</p>
-                <p>{d.review}</p>
-              </div>
+      <div className="carrossel">
+        <Slider {...settings}>
+        {data.map((d) => (
+          <div className="cards">
+            <div className='imgCard'>
+              <img src={d.img} alt="" />
             </div>
-          ))}
-          </Slider>
-        </div>
+
+            <div className="contCard">
+              <h2>{d.name}</h2>
+              <p>{d.review}</p>
+            </div>
+          </div>
+        ))}
+        </Slider>
+      </div>
       
 
       <footer className="footer">
