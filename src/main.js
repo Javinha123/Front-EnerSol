@@ -8,15 +8,10 @@ import painel from './assets/painel.png'
 import foto1 from './assets/card1.png'
 import foto2 from './assets/card2.png'
 
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './navbar';
-import About from './dash';  // Importando a página About
 
 const UserRegistrationForm = () => {
   const [name, setName] = useState('');
@@ -69,10 +64,9 @@ const UserRegistrationForm = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 2
+    slidesToShow: 2,
+    slidesToScroll: 1
   };
-
 
   return (
     //Pra que serve
@@ -82,16 +76,6 @@ const UserRegistrationForm = () => {
     // e as melhores coisas 
     //não tem lógica
     <div>
-
-      <Router>
-        <div>
-          <Navbar />
-          <Routes>
-            <Route path="/" exact />
-            <Route path="./about" Component={About} />
-          </Routes>
-        </div>
-      </Router>
 
       <header className="header-container">
         <div className="logo-container">
@@ -211,24 +195,27 @@ const UserRegistrationForm = () => {
         <img src={painel} />
       </div>
 
-
+      <div className='sobreNos'>
+        <h1>Saiba mais sobre nós</h1>
+      </div>
+      
       <div className="carrossel">
         <Slider {...settings}>
-          {data.map((d) => (
-            <div className="cards">
-              <div className="imgCard">
-                <img src={d.img} alt="" />
-              </div>
-
-              <div className="contCard">
-                <p>{d.name}</p>
-                <p>{d.review}</p>
-              </div>
+        {data.map((d) => (
+          <div className="cards">
+            <div className='imgCard'>
+              <img src={d.img} alt="" />
             </div>
-          ))}
+
+            <div className="contCard">
+              <h2>{d.name}</h2>
+              <p>{d.review}</p>
+            </div>
+          </div>
+        ))}
         </Slider>
       </div>
-
+      
 
       <footer className="footer">
         <div className="footer-content">
@@ -271,3 +258,4 @@ const data = [
 ]
 
 export default UserRegistrationForm;
+
