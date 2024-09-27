@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, IconButton, Paper, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, IconButton, Paper, Dialog, DialogTitle,
+  DialogContent, TextField, DialogActions, Select, MenuItem
+} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const Dashboard = () => {
+const Kits = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({ nome: '', valor: '', potencia: '', tamanho: '', quantidade: '' });
+  const [formData, setFormData] = useState({ nome: '', valor: '', quantidade: '', geradorId: '', placaId: '' });
   const [editId, setEditId] = useState(null);
+  const [generators, setGenerators] = useState([]);  // Estado para armazenar os geradores
+  const [panels, setPanels] = useState([]);  // Estado para armazenar as placas
 
-  // Carrega os dados da API
+  // Carrega os dados dos kits
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/placas'); // URL correta
+        const response = await fetch('http://localhost:8000/api/kits');
         const data = await response.json();
         setItems(data);
         setLoading(false);
@@ -27,6 +32,28 @@ const Dashboard = () => {
     fetchItems();
   }, []);
 
+  // Carrega os dados dos geradores e placas
+  useEffect(() => {
+    const fetchGeneratorsAndPanels = async () => {
+      try {
+        const [generatorsResponse, panelsResponse] = await Promise.all([
+          fetch('http://localhost:8000/api/geradores'), // URL dos geradores
+          fetch('http://localhost:8000/api/placas')     // URL das placas
+        ]);
+
+        const generatorsData = await generatorsResponse.json();
+        const panelsData = await panelsResponse.json();
+
+        setGenerators(generatorsData);
+        setPanels(panelsData);
+      } catch (error) {
+        console.error('Erro ao buscar geradores e placas:', error);
+      }
+    };
+
+    fetchGeneratorsAndPanels();
+  }, []);
+
   // Abre o modal para criar ou editar
   const handleClickOpen = (item = null) => {
     setOpen(true);
@@ -34,7 +61,7 @@ const Dashboard = () => {
       setFormData(item);
       setEditId(item.id);
     } else {
-      setFormData({ nome: '', valor: '', potencia: '', tamanho: '', quantidade: '' });
+      setFormData({ nome: '', quantidade: '', geradorId: '', placaId: '' });
       setEditId(null);
     }
   };
@@ -47,41 +74,46 @@ const Dashboard = () => {
   // Salva (cria ou edita) o item
   const handleSave = async () => {
     const method = editId ? 'PUT' : 'POST';
-    const url = editId ? `http://localhost:8000/api/placas/${editId}` : 'http://localhost:8000/api/placas';
-    
+    const url = editId ? `http://localhost:8000/api/kits/${editId}` : 'http://localhost:8000/api/kits';
+
     try {
-        const response = await fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        });
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            nome: formData.nome,
+            valor: formData.valor,
+            quantidade: formData.quantidade,
+            gerador_id: formData.geradorId,  // Enviando gerador_id
+            placa_id: formData.placaId        // Enviando placa_id
+          }),
+      });
 
-        if (!response.ok) {
-            throw new Error('Erro na requisição');
-        }
+      if (!response.ok) {
+        throw new Error('Erro na requisição');
+      }
 
-        const savedItem = await response.json();
+      const savedItem = await response.json();
 
-        if (method === 'POST') {
-            setItems([...items, savedItem]);
-        } else {
-            setItems(items.map(item => item.id === editId ? savedItem : item));
-        }
+      if (method === 'POST') {
+        setItems([...items, savedItem]);
+      } else {
+        setItems(items.map(item => item.id === editId ? savedItem : item));
+      }
 
-        handleClose();
+      handleClose();
     } catch (error) {
-        console.error('Erro ao salvar dados:', error);
+      console.error('Erro ao salvar dados:', error);
     }
-};
-
+  };
 
   // Exclui o item
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:8000/api/placas/${id}`, {
+      await fetch(`http://localhost:8000/api/kits/${id}`, {
         method: 'DELETE',
       });
       setItems(items.filter(item => item.id !== id));
@@ -92,9 +124,9 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>Dashboard - Placas</h1>
+      <h1>Dashboard - Kits</h1>
       <Button variant="contained" color="primary" style={{ marginBottom: '20px' }} onClick={() => handleClickOpen()}>
-        Adicionar Placa
+        Adicionar Kits
       </Button>
 
       {loading ? (
@@ -107,9 +139,9 @@ const Dashboard = () => {
                 <TableCell>ID</TableCell>
                 <TableCell>Nome</TableCell>
                 <TableCell>Valor</TableCell>
-                <TableCell>Potência</TableCell>
-                <TableCell>Tamanho</TableCell>
                 <TableCell>Quantidade</TableCell>
+                <TableCell>GeradorID</TableCell>
+                <TableCell>PlacaID</TableCell>
                 <TableCell>Ações</TableCell>
               </TableRow>
             </TableHead>
@@ -119,9 +151,9 @@ const Dashboard = () => {
                   <TableCell>{item.id}</TableCell>
                   <TableCell>{item.nome}</TableCell>
                   <TableCell>{item.valor}</TableCell>
-                  <TableCell>{item.potencia}</TableCell>
-                  <TableCell>{item.tamanho}</TableCell>
                   <TableCell>{item.quantidade}</TableCell>
+                  <TableCell>{item.gerador_id}</TableCell>
+                  <TableCell>{item.placa_id}</TableCell>
                   <TableCell>
                     <IconButton color="warning" onClick={() => handleClickOpen(item)}>
                       <EditIcon />
@@ -139,7 +171,7 @@ const Dashboard = () => {
 
       {/* Modal para criar/editar */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editId ? 'Editar Compra' : 'Nova Compra'}</DialogTitle>
+        <DialogTitle>{editId ? 'Editar Kit' : 'Novo Kit'}</DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
@@ -157,23 +189,9 @@ const Dashboard = () => {
             value={formData.valor}
             onChange={(e) => setFormData({ ...formData, valor: e.target.value })}
           />
-          
-          <TextField
-            margin="dense"
-            label="Potência"
-            type="number"
-            fullWidth
-            value={formData.potencia}
-            onChange={(e) => setFormData({ ...formData, potencia: e.target.value })}
-          />
-          <TextField
-            margin="dense"
-            label="Tamanho"
-            type="number"
-            fullWidth
-            value={formData.tamanho}
-            onChange={(e) => setFormData({ ...formData, tamanho: e.target.value })}
-          />
+
+         
+        
           <TextField
             margin="dense"
             label="Quantidade"
@@ -182,6 +200,37 @@ const Dashboard = () => {
             value={formData.quantidade}
             onChange={(e) => setFormData({ ...formData, quantidade: e.target.value })}
           />
+
+          {/* Select para Gerador */}
+          <Select
+            margin="dense"
+            label="Gerador"
+            fullWidth
+            value={formData.geradorId}
+            onChange={(e) => setFormData({ ...formData, geradorId: e.target.value })}
+          >
+            {generators.map((generator) => (
+              <MenuItem key={generator.id} value={generator.id}>
+                {generator.nome}
+              </MenuItem>
+            ))}
+          </Select>
+
+          {/* Select para Placa */}
+          <Select
+            margin="dense"
+            label="Placa"
+            fullWidth
+            value={formData.placaId}
+            onChange={(e) => setFormData({ ...formData, placaId: e.target.value })}
+          >
+            {panels.map((panel) => (
+              <MenuItem key={panel.id} value={panel.id}>
+                {panel.nome}
+              </MenuItem>
+            ))}
+          </Select>
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
@@ -196,4 +245,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Kits;

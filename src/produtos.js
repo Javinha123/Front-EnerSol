@@ -14,7 +14,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/placas'); // URL correta
+        const response = await fetch('http://localhost:8000/api/geradores'); // URL correta
         const data = await response.json();
         setItems(data);
         setLoading(false);
@@ -47,7 +47,7 @@ const Dashboard = () => {
   // Salva (cria ou edita) o item
   const handleSave = async () => {
     const method = editId ? 'PUT' : 'POST';
-    const url = editId ? `http://localhost:8000/api/placas/${editId}` : 'http://localhost:8000/api/placas';
+    const url = editId ? `http://localhost:8000/api/geradores/${editId}` : 'http://localhost:8000/api/geradores';
     
     try {
         const response = await fetch(url, {
@@ -81,7 +81,7 @@ const Dashboard = () => {
   // Exclui o item
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:8000/api/placas/${id}`, {
+      await fetch(`http://localhost:8000/api/geradores/${id}`, {
         method: 'DELETE',
       });
       setItems(items.filter(item => item.id !== id));
@@ -92,9 +92,9 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>Dashboard - Placas</h1>
+      <h1>Dashboard - Geradores</h1>
       <Button variant="contained" color="primary" style={{ marginBottom: '20px' }} onClick={() => handleClickOpen()}>
-        Adicionar Placa
+        Adicionar Geradores
       </Button>
 
       {loading ? (

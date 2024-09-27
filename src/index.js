@@ -1,18 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+
 import './index.css';
-import App from './App';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Usuarios from './usuarios'; 
 
 
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-
-root.render(
+ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
-  
+      <Usuarios /> {/* Renderize diretamente a página Main */}
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
 
