@@ -11,15 +11,16 @@ const Usuarios = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [openInfo, setOpenInfo] = useState(false); // Modal de informações
+  const [openInfo, setOpenInfo] = useState(false);
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false); // Modal de confirmação de exclusão
   const [formData, setFormData] = useState({
     name: '', email: '', password: '', tipo: '', cep: '', bairro: '',
     numero: '', cidade: '', rua: '', cpf: '', documento: ''
   });
-  const [selectedUser, setSelectedUser] = useState(null); // Armazena o usuário selecionado para exibir informações
+  const [selectedUser, setSelectedUser] = useState(null);
   const [editId, setEditId] = useState(null);
+  const [userToDelete, setUserToDelete] = useState(null); // Armazena o usuário a ser excluído
 
-  // Função para carregar os dados dos usuários da API
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -35,7 +36,6 @@ const Usuarios = () => {
     fetchUsers();
   }, []);
 
-  // Abre o modal para criar ou editar
   const handleClickOpen = (user = null) => {
     setOpen(true);
     if (user) {
@@ -50,64 +50,81 @@ const Usuarios = () => {
     }
   };
 
-  // Fecha o modal
   const handleClose = () => setOpen(false);
 
-  // Salva (cria ou edita) o usuário
   const handleSave = async () => {
     const method = editId ? 'PUT' : 'POST';
     const url = editId ? `http://localhost:8000/api/usuarios/${editId}` : 'http://localhost:8000/api/usuarios';
 
     try {
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
 
-      if (!response.ok) throw new Error('Erro na requisição');
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(`Erro na requisição: ${errorMessage}`);
+        }
 
-      const savedUser = await response.json();
+        if (method === 'POST') {
+            const usersResponse = await fetch('http://localhost:8000/api/usuarios');
+            const updatedUsers = await usersResponse.json();
+            setUsers(updatedUsers);
+        } else {
+            const savedUser = await response.json();
+            setUsers((prevUsers) =>
+                prevUsers.map((user) => (user.id === editId ? savedUser : user))
+            );
+        }
 
-      setUsers(editId 
-        ? users.map(user => user.id === editId ? savedUser : user) 
-        : [...users, savedUser]
-      );
-      handleClose();
+        handleClose();
     } catch (error) {
-      console.error('Erro ao salvar dados:', error);
+        console.error('Erro ao salvar dados:', error.message);
     }
   };
 
-  // Exclui o usuário
-  const handleDelete = async (id) => {
+  // Abre o modal de confirmação
+  const handleDelete = (id) => {
+    setUserToDelete(id);
+    setOpenConfirmDelete(true);
+  };
+
+  // Confirma a exclusão
+  const handleConfirmDelete = async () => {
     try {
-      await fetch(`http://localhost:8000/api/usuarios/${id}`, { method: 'DELETE' });
-      setUsers(users.filter(user => user.id !== id));
+      await fetch(`http://localhost:8000/api/usuarios/${userToDelete}`, { method: 'DELETE' });
+      setUsers(users.filter(user => user.id !== userToDelete));
+      setUserToDelete(null); // Reseta o usuário a ser excluído
     } catch (error) {
       console.error('Erro ao deletar usuário:', error);
+    } finally {
+      setOpenConfirmDelete(false); // Fecha o modal de confirmação
     }
   };
 
-  // Abre o modal com as informações do usuário
   const handleViewInfo = (user) => {
     setSelectedUser(user);
     setOpenInfo(true);
   };
 
-  // Fecha o modal de informações
   const handleCloseInfo = () => setOpenInfo(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <div>
       <h1>Dashboard - Usuários</h1>
-      <Button 
-        variant="contained" 
-        color="primary" 
-        style={{ marginBottom: '20px' }} 
+      <Button
+        variant="contained"
+        color="primary"
+        style={{ marginBottom: '20px' }}
         onClick={() => handleClickOpen()}
       >
         Novo Usuário
@@ -129,8 +146,8 @@ const Usuarios = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((user, index) => (
-                <TableRow key={user.id || index}>
+              {users.map((user) => (
+                <TableRow key={user.id}>
                   <TableCell>{user.id}</TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
@@ -158,15 +175,26 @@ const Usuarios = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{editId ? 'Editar Usuário' : 'Novo Usuário'}</DialogTitle>
         <DialogContent>
-          {/* ... Conteúdo do formulário de edição ... */}
+          <TextField label="Nome" name="name" value={formData.name} onChange={handleChange} fullWidth margin="dense" />
+          <TextField label="Email" name="email" value={formData.email} onChange={handleChange} fullWidth margin="dense" />
+          <TextField label="Senha" name="password" type="password" value={formData.password} onChange={handleChange} fullWidth margin="dense" />
+          <Select label="Tipo" name="tipo" value={formData.tipo} onChange={handleChange} fullWidth margin="dense">
+            <MenuItem value="pessoa comum">Pessoa física</MenuItem>
+            <MenuItem value="produtor rural">Produtor rural</MenuItem>
+          </Select>
+          <TextField label="Cidade" name="cidade" value={formData.cidade} onChange={handleChange} fullWidth margin="dense" />
+          <TextField label="Rua" name="rua" value={formData.rua} onChange={handleChange} fullWidth margin="dense" />
+          <TextField label="Bairro" name="bairro" value={formData.bairro} onChange={handleChange} fullWidth margin="dense" />
+          <TextField label="Número" name="numero" value={formData.numero} onChange={handleChange} fullWidth margin="dense" />
+          <TextField label="CEP" name="cep" value={formData.cep} onChange={handleChange} fullWidth margin="dense" />
+          <TextField label="CPF" name="cpf" value={formData.cpf} onChange={handleChange} fullWidth margin="dense" />
+          {formData.tipo === 'produtor rural' && (
+            <TextField label="Documento" name="documento" value={formData.documento} onChange={handleChange} fullWidth margin="dense" />
+          )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            Cancelar
-          </Button>
-          <Button onClick={handleSave} color="primary">
-            Salvar
-          </Button>
+          <Button onClick={handleClose} color="secondary">Cancelar</Button>
+          <Button onClick={handleSave} color="primary">Salvar</Button>
         </DialogActions>
       </Dialog>
 
@@ -183,13 +211,24 @@ const Usuarios = () => {
               <TextField label="Documento" fullWidth margin="dense" value={selectedUser.documento || ''} disabled />
               <TextField label="Número" fullWidth margin="dense" value={selectedUser.numero || ''} disabled />
               <TextField label="Bairro" fullWidth margin="dense" value={selectedUser.bairro || ''} disabled />
+              <TextField label="Cidade" fullWidth margin="dense" value={selectedUser.cidade || ''} disabled />
             </>
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseInfo} color="secondary">
-            Fechar
-          </Button>
+          <Button onClick={handleCloseInfo} color="primary">Fechar</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Modal de confirmação de exclusão */}
+      <Dialog open={openConfirmDelete} onClose={() => setOpenConfirmDelete(false)}>
+        <DialogTitle>Confirmar Exclusão</DialogTitle>
+        <DialogContent>
+          <p>Tem certeza de que deseja excluir este usuário?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenConfirmDelete(false)} color="secondary">Cancelar</Button>
+          <Button onClick={handleConfirmDelete} color="primary">Excluir</Button>
         </DialogActions>
       </Dialog>
     </div>
