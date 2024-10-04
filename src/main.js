@@ -7,7 +7,6 @@ import planta from './assets/planta.png'
 import painel from './assets/painel.png'
 import foto1 from './assets/card1.png'
 import foto2 from './assets/card2.png'
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -25,6 +24,7 @@ const UserRegistrationForm = () => {
   const [rua, setRua] = useState('');
   const [cpf, setCpf] = useState('');
   const [documento, setDocumento] = useState('');
+
 
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
