@@ -7,38 +7,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add'; 
 import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom'; 
-import Kits from './kits';
-import Dashboard from './dash';
-import Main from './main';
-import Produtos from './produtos';
 
-const App = () => {
-  return (
-    <Router>
-      <Navegacao />
-      <Routes>
-      <Route path="/main" element={<Main />} />
-        
-        <Route path="/dash" element={<Dashboard />} />
-        <Route path="/kits" element={<Kits />} />
-        <Route path="/usuarios" element={<Usuarios />} />
-        <Route path="/produtos" element={<Produtos />} />
-      </Routes>
-    </Router>
-  );
-};
 
-const Navegacao = () => {
-  return (
-    <nav>
-      <Link to="/kits">Kits</Link> | 
-      <Link to="/main">Main</Link> | 
-      <Link to="/dash">Dash</Link> |
-      <Link to="/usuarios">Usuários</Link> | 
-      <Link to="/produtos">Produtos</Link>
-    </nav>
-  );
-};
+
 
 const Usuarios = () => {
   const [users, setUsers] = useState([]);
@@ -159,7 +130,7 @@ const Usuarios = () => {
               Cadastrar Usuários
             </Button>
           </div>
-          <div className='tabelaProd'>
+          <div>
             {loading ? (
               <p>Carregando...</p>
             ) : (
@@ -277,4 +248,4 @@ const Usuarios = () => {
   );
 };
 
-export default App;
+export default Usuarios;

@@ -475,7 +475,432 @@ width: 200px;
   width: 380px;
   padding: 10px;
   border-radius: 10px;
-  margin-left: 50px;
 }
 
-/* css dashusuarios***************************************************************************/
+/* css compra***************************************************************************/
+
+.pgCompra {
+  background-color: #EDF1FD;
+}
+
+.fotoCompra {
+  display: flex;
+  flex-direction: column;
+  height: 690px;
+  padding: 20px;
+  background: url('../src/assets/fotoHome.png') no-repeat center center;
+  background-size: cover;
+  margin: 0;
+}
+
+.fotoCompra h1{
+  color: white;
+  margin-top: 150px;
+  margin-left: 100px;
+  font-size: 64px;
+}
+
+.fotoCompra p{
+  color: white;
+  margin-top: 30px;
+  margin-left: 100px;
+  font-size: 15px;
+  width: 1000px;
+}
+
+.cardsCompra{
+  height: 100hv;
+}
+
+.cardsCompra h1 {
+  color: black;
+  margin-top: 150px;
+  margin-left: 60px;
+  font-size: 64px;
+}
+
+.contCardCompra h2{
+  font-weight: bolder;
+  font-size: 25px;
+}
+
+.cardsComp{
+  display: flex !important;
+  flex-direction: column;
+  width: 350px !important;
+  height: 500px;
+  margin-left: 30px;
+  font-family: Arial;
+  margin-top: 80px;
+  margin-bottom: 30px;
+  background-color: #c2cfe0;
+  border-radius: 25px;
+}
+
+.imgCardCompra img{
+  width: 300px;
+  height: 300px;
+  margin-top: 10px;
+  margin-left: 25px;
+  object-fit: cover;
+  border-radius: 25px;
+}
+
+.contCardCompra {
+  margin-left: 25px;
+  margin-top: 20px;
+}
+
+.valorPlaca {
+  margin-top: 30px;
+  font-size: 30px;
+}
+
+.comprarPlaca {
+  display: flex;
+  flex-direction: row;
+  background-color: #0033A0;
+  color: white;
+  font-size: 20px;
+  width: 300px;
+  height: 50px;
+  border-radius: 10px;
+  margin-left: 25px;
+  align-items: center;
+  border: none;
+  margin-top: 5px;
+  margin-bottom: 7px;
+}
+
+.comprarPlaca img {
+  margin-left: 15px;
+  margin-right: 60px;
+  width: 30px;
+  height: 30px;
+}
+
+/* css visu carrinho***************************************************************************/
+
+/* Container principal */
+
+
+/* Cabeçalho */
+
+
+.logo {
+  color: #2d8ae1;
+  font-size: 24px;
+}
+
+.icons {
+  display: flex;
+  gap: 15px;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+/* Cartão de informações do produto */
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  margin-top: 20px;
+}
+
+.main-image {
+  width: 100px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.details {
+  text-align: left;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.subtitle {
+  color: #777;
+}
+
+.description {
+  margin-top: 10px;
+  color: #666;
+}
+
+.price {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.discount-price {
+  color: #2d8ae1;
+  font-weight: bold;
+}
+
+.button {
+  background-color: #2d8ae1;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* Miniaturas */
+.thumbnail-container {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+}
+
+/*Visual carrinho*/
+
+.visuContainer {
+  background-color: #EDF1FD;
+  height: 729px;
+}
+
+.boxCompra {
+  display: flex;
+  flex-direction: row;
+}
+
+.boxImagem {
+  width: 300px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  margin-right: 50px;
+}
+
+.boxmini{
+  display: flex;
+  margin-right: 580px;
+  margin-top: 30px;
+}
+
+/*Carrinho*/
+
+.carrinhoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cartContent {
+  flex: 2;
+}
+
+.cartTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.cartTable th, .cartTable td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.quantityInput {
+  width: 50px;
+  text-align: center;
+}
+
+.resumoPedido {
+  flex: 1;
+  position: sticky;
+  top: 20px; /* O card ficará fixo 20px abaixo do topo da janela */
+  align-self: flex-start; /* Isso ajuda o card a "grudar" no início */
+  height: fit-content;
+}
+
+.resumoBox {
+  background-color: #0033A0;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+
+
+
+
+
+.cart-button {
+  margin-left: auto; /* Para empurrar o botão para a direita */
+}
+
+.btnCarrinho {
+  background-color: #4CAF50; /* Cor do botão */
+  color: white; /* Cor do texto */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btnCarrinho:hover {
+  background-color: #45a049; /* Cor ao passar o mouse */
+}
+
+
+
+/* styles.finalizar *****************/
+.finalizarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full height for centering */
+  background-color: #f7f9fc; /* Light background color */
+}
+
+.finalizarBox {
+  background-color: #ffffff; /* White background for the box */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 30px; /* Padding around the content */
+  width: 400px; /* Fixed width for the box */
+  text-align: center; /* Center the text */
+}
+
+.finalizarTitle {
+  font-size: 36px; /* Title font size */
+  font-weight: bold; /* Bold font weight */
+  margin-bottom: 20px; /* Margin below the title */
+  color: #333333; /* Dark gray text color */
+}
+
+.qrCodeContainer {
+  margin: 20px 0; /* Margin around the QR code */
+}
+
+.qrCodeTitle {
+  font-size: 18px; /* Title font size for QR code */
+  margin-bottom: 10px; /* Margin below the QR code title */
+  color: #666666; /* Lighter gray text color */
+}
+
+.finalizarButton {
+  background-color: #007bff; /* Button color */
+  color: #ffffff; /* Button text color */
+  padding: 10px 20px; /* Padding for the button */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Button text size */
+  transition: background-color 0.3s; /* Transition effect for hover */
+}
+
+.finalizarButton:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Container da Navbar */
+.navbar {
+  background-color: rgba(0, 51, 160, 1); /* Cor de fundo original */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: background-color 0.3s, color 0.3s, font-size 0.3s; /* Adiciona transição para o tamanho da fonte */
+}
+
+/* Navbar após rolagem */
+.navbar.scrolled {
+  background-color: rgba(0, 51, 160, 0.7); /* Fundo quase transparente */
+  color: black; /* Texto em preto */
+  font-size: 18px; /* Aumenta o tamanho da fonte ao rolar */
+}
+
+/* Links da Navbar */
+.navbar a {
+  color: white; /* Cor do texto padrão */
+  text-decoration: none;
+  font-size: 16px; /* Tamanho padrão dos links */
+  padding: 10px 15px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Efeito de hover nos links */
+.navbar a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #FFD700;
+}
+
+/* Links após rolagem */
+.navbar.scrolled a {
+  color: black; /* Texto em preto após rolagem */
+  font-size: 18px; /* Aumenta o tamanho da fonte dos links ao rolar */
+}
+
+/* Estilo responsivo */
+@media (max-width: 768px) {
+  .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .navbar a {
+      width: 100%;
+      text-align: center;
+  }
+}
+

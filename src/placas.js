@@ -11,10 +11,10 @@ import {
     DialogContent,
     TextField,
     DialogActions,
-    Box
+    Box,
+    Avatar
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import SolarIcon from '@mui/icons-material/SolarPower';
 import { green, red } from '@mui/material/colors';
 
 const Dashboard = () => {
@@ -22,7 +22,7 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [detailOpen, setDetailOpen] = useState(false);
-    const [formData, setFormData] = useState({ nome: '', valor: '', potencia: '', tamanho: '', quantidade: '' });
+    const [formData, setFormData] = useState({ nome: '', valor: '', potencia: '', tamanho: '', quantidade: '', img: '' });
     const [editId, setEditId] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
 
@@ -47,7 +47,7 @@ const Dashboard = () => {
             setFormData(item);
             setEditId(item.id);
         } else {
-            setFormData({ nome: '', valor: '', potencia: '', tamanho: '', quantidade: '' });
+            setFormData({ nome: '', valor: '', potencia: '', tamanho: '', quantidade: '', img: '' });
             setEditId(null);
         }
     };
@@ -62,17 +62,37 @@ const Dashboard = () => {
         setDetailOpen(true);
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData({ ...formData, img: reader.result });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleSave = async () => {
+        const formDataToSend = new FormData();
+        formDataToSend.append('nome', formData.nome);
+        formDataToSend.append('valor', formData.valor);
+        formDataToSend.append('potencia', formData.potencia);
+        formDataToSend.append('tamanho', formData.tamanho);
+        formDataToSend.append('quantidade', formData.quantidade);
+        
+        if (formData.img) {
+            const blob = await fetch(formData.img).then(res => res.blob());
+            formDataToSend.append('img', blob, 'image.png'); // Altere 'image.png' para o nome que você deseja
+        }
+    
         const method = editId ? 'PUT' : 'POST';
         const url = editId ? `http://localhost:8000/api/placas/${editId}` : 'http://localhost:8000/api/placas';
+        
         try {
             const response = await fetch(url, {
                 method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                body: formDataToSend,
             });
             if (!response.ok) {
                 throw new Error('Erro na requisição');
@@ -91,28 +111,32 @@ const Dashboard = () => {
 
     const handleDelete = async (id) => {
         try {
-            await fetch(`http://localhost:8000/api/placas/${id}`, { method: 'DELETE' });
-            setItems(items.filter(item => item.id !== id));
+            const response = await fetch(`http://localhost:8000/api/placas/${id}`, { method: 'DELETE' });
+            if (!response.ok) {
+                throw new Error('Erro ao excluir a placa');
+            }
+            setItems(items.filter(item => item.id !== id)); // Atualiza a lista local
         } catch (error) {
             console.error('Erro ao excluir item:', error);
         }
     };
+    
 
     return (
         <div className='containerProd'>
             <div style={{ padding: '20px' }}>
                 <div className='contProd'>
-                    <h1 className='tdash'>Monitoramento de Placas</h1>
-                    <Box sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
+                    <h1 className='tdash'>Adicionar Placas</h1>
+                    <Box sx={{ maxHeight: '70vh', overflowY: 'auto'}}>
                         <Grid container spacing={2}>
                             {loading ? (
                                 <p>Carregando...</p>
                             ) : (
                                 items.map((item) => (
                                     <Grid item xs={12} key={item.id}>
-                                        <Card style={{ borderRadius: '10px', boxShadow: '0 3px 6px rgba(0,0,0,0.1)' }} onClick={() => handleDetailOpen(item)}>
+                                        <Card style={{ borderRadius: '10px', boxShadow: '0 3px 6px rgba(0,0,0,0.1)', marginRight: '20px' }} onClick={() => handleDetailOpen(item)}>
                                             <CardContent style={{ display: 'flex', alignItems: 'center' }}>
-                                                <SolarIcon style={{ fontSize: 50, marginRight: '15px' }} />
+                                                <Avatar src={item.img} style={{ width: 50, height: 50, marginRight: '15px' }} />
                                                 <div style={{ flexGrow: 1 }}>
                                                     <Typography variant="h6">{item.nome}</Typography>
                                                     <Typography variant="body2" color="textSecondary">
@@ -131,7 +155,7 @@ const Dashboard = () => {
                                 ))
                             )}
                             <Grid item xs={12}>
-                                <Card style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px', border: '2px dashed #527EDD', borderRadius: '10px' }} onClick={() => handleClickOpen()}>
+                                <Card style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px', border: '2px dashed #527EDD', borderRadius: '10px', marginRight: '20px' }} onClick={() => handleClickOpen()}>
                                     <IconButton style={{ color: '#527EDD', fontSize: '35px' }}>
                                         <AddIcon />
                                     </IconButton>
@@ -150,6 +174,7 @@ const Dashboard = () => {
                             <TextField margin="dense" label="Potência" placeholder='Digite a potência' type="number" fullWidth value={formData.potencia} onChange={(e) => setFormData({ ...formData, potencia: e.target.value })} />
                             <TextField margin="dense" label="Tamanho" placeholder='Digite o tamanho' type="number" fullWidth value={formData.tamanho} onChange={(e) => setFormData({ ...formData, tamanho: e.target.value })} />
                             <TextField margin="dense" label="Quantidade" type="number" placeholder='Digite a quantidade' fullWidth value={formData.quantidade} onChange={(e) => setFormData({ ...formData, quantidade: e.target.value })} />
+                            <input type="file" accept="image/*" onChange={handleFileChange} />
                         </DialogContent>
                         <DialogActions sx={{ justifyContent: 'center', backgroundColor: '#EDF1FD' }}>
                             <Button onClick={handleClose} sx={{ backgroundColor: 'red', color: 'white', borderRadius: '10px', width: '100px' }}>Cancelar</Button>
@@ -164,8 +189,9 @@ const Dashboard = () => {
                         <DialogContent sx={{ backgroundColor: '#EDF1FD' }}>
                             {selectedItem && (
                                 <>
+                                    <Avatar src={selectedItem.img} style={{ width: 100, height: 100, marginBottom: '10px' }} />
                                     <Typography variant="h6">Nome: {selectedItem.nome}</Typography>
-                                    <Typography variant="body2">Potência: {selectedItem.potencia}w</Typography>
+                                    <Typography variant="body2">Potência: {selectedItem.potencia}</Typography>
                                     <Typography variant="body2">Valor: {selectedItem.valor}</Typography>
                                     <Typography variant="body2">Tamanho: {selectedItem.tamanho}</Typography>
                                     <Typography variant="body2">Quantidade: {selectedItem.quantidade}</Typography>
@@ -176,7 +202,18 @@ const Dashboard = () => {
                             )}
                         </DialogContent>
                         <DialogActions sx={{ justifyContent: 'center', backgroundColor: '#EDF1FD' }}>
-                            <Button onClick={handleClose} sx={{ backgroundColor: 'red', color: 'white', borderRadius: '10px', width: '100px' }}>Fechar</Button>
+                            <Button 
+                                onClick={() => {
+                                    handleDelete(selectedItem.id); // Chama a função de exclusão
+                                    handleClose(); // Fecha o diálogo após a exclusão
+                                }} 
+                                sx={{ backgroundColor: 'red', color: 'white', borderRadius: '10px', width: '100px' }}
+                            >
+                                Excluir
+                            </Button>
+                            <Button onClick={handleClose} sx={{ backgroundColor: 'red', color: 'white', borderRadius: '10px', width: '100px' }}>
+                                Fechar
+                            </Button>
                         </DialogActions>
                     </Dialog>
                 </div>
